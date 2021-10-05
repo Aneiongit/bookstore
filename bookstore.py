@@ -3,9 +3,10 @@ def exiting():
     exit()
 
 
-def add_item(name):
-    items.append(name)
-    print(items)
+def add_item(item):
+    global items
+    items.append(item)
+    return items
 
 
 def get_items():
@@ -35,9 +36,20 @@ if __name__ == "__main__":
             print(get_items())
             continue
         elif choice == "add":
-            new_item = [input("To add an item please provide name, quantity, unit and unit price separated with comma: ")]
+            name = str(input("To add an item please provide name: "))
+            quantity = int(input("Please provide quantity: "))
+            unit = str(input("Please provide unit (i.e: kg, l, pcs): "))
+            unit_price = float(input("Please provide price per unit in PLN: "))
+            new_item = [name, quantity, unit, unit_price]
+            global item
             add_item(new_item)
+            print(items)
+            print(f"{'Name': <31} {'Quantity': <10} {'Unit': <8} {'Unit price (PLN)': <8}")
+            for item in items:
+                print(f"{(item[0]):<30}  {item[1]:<10} {item[2]:<8} {item[3]:<8}")
             continue
         else:
-            print("Wrong option, exiting... bye!")
-            break
+            print("Wrong option!")
+            continue
+
+# "Dragon Age", 25, "pcs", 54.99
