@@ -9,6 +9,17 @@ def add_item(item):
     return items
 
 
+def sell_item(item):
+    global items
+    for item in items:
+        if name == item[0]:
+            item[1] = item[1] - quantity
+        elif name != item[0]:
+            continue
+        else:
+            print("We do not have this stock, please try again.")
+
+
 def get_items():
     print(f"{'Name': <31} {'Quantity': <10} {'Unit': <8} {'Unit price (PLN)': <8}")
     for item in items:
@@ -24,6 +35,7 @@ if __name__ == "__main__":
     print("Exit - exit the program.")
     print("Show - display stock.")
     print("Add - add an item.")
+    print("Sell - deduct an item.")
 
     while True:
         choice = input("Choose one from the options: ")
@@ -42,6 +54,12 @@ if __name__ == "__main__":
             unit_price = float(input("Please provide price per unit in PLN: "))
             new_item = [name, quantity, unit, unit_price]
             add_item(new_item)
+            continue
+        elif choice == "sell":
+            name = str(input("To sell an item please provide name: "))
+            quantity = int(input("Please provide quantity: "))
+            item = [name, quantity]
+            sell_item(item)
             continue
         else:
             print("Wrong option!")
