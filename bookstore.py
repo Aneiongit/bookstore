@@ -1,9 +1,12 @@
+import csv
+
+
 def exiting():
     print("Exiting... Bye!")
     exit()
 
 
-def add_item(item):
+def add_item(new_item):
     global items
     items.append(new_item)
     return items
@@ -49,15 +52,44 @@ def get_revenue():
     return revenue
 
 
-items = [["The Tower", 50, "pcs", 44.99],
-         ["The Witcher", 20, "pcs", 32.99],
-         ["Animal Farm", 10, "pcs", 15.99]]
+def export_items_to_csv():
+    with open("books.csv", "w", newline="") as warehouse:
+        writer = csv.writer(warehouse)
+        writer.writerows(items)
+
+
+def export_sales_to_csv():
+    with open("sales.csv", "w", newline="") as warehouse:
+        writer = csv.writer(warehouse)
+        writer.writerows(sold_items)
+
+
+items = []
 
 sold_items = []
 
 if __name__ == "__main__":
+    with open('books.csv', newline='') as f:
+        reader = csv.reader(f)
+        items = list(reader)
+        for item in items:
+            item[0] = str(item[0])
+            item[1] = int(item[1])
+            item[2] = str(item[2])
+            item[3] = float(item[3])
+
+    with open('sales.csv', newline='') as f:
+        reader = csv.reader(f)
+        sold_items = list(reader)
+        for item in items:
+            item[0] = str(item[0])
+            item[1] = int(item[1])
+            item[2] = str(item[2])
+            item[3] = float(item[3])
+
     print("Bookstore Management System")
     print("Exit - exit the program.")
+    print("Save - saving progress.")
     print("Show - display stock.")
     print("Add - add an item.")
     print("Sell - deduct an item.")
@@ -70,6 +102,10 @@ if __name__ == "__main__":
         if choice == "exit":
             print("Exiting... bye!")
             break
+        elif choice == "save":
+            export_items_to_csv()
+            export_sales_to_csv()
+            continue
         elif choice == "show":
             print(get_items())
             continue
@@ -88,7 +124,7 @@ if __name__ == "__main__":
                 if name == item[0]:
                     unit = item[2]
                     unit_price = item[3]
-                    sold_item = [name, quantity, unit, unit_price]
+                    sold_item = [name, int(quantity), unit, float(unit_price)]
                 elif name != item[0]:
                     continue
             sell_item(sold_item)
